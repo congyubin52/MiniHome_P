@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
+import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -59,11 +60,22 @@ const profileImageStyles = {
 };
 const todayFeelStyles = {
   bgcolor: 'background.paper',
+  borderColor: 'text.primary',
+  border: 1,
   ml: 4,
   mr: 4,
   mt: 4,
   height: '2rem',
 };
+
+const rows = [
+  {
+    id: 1,
+    username: '@MUI',
+    age: 20,
+  },
+];
+
 const introStyles = {
   bgcolor: 'background.paper',
   borderColor: 'text.primary',
@@ -72,29 +84,16 @@ const introStyles = {
   mr: 4,
   mt: 1,
   height: '8rem',
-  display: 'flex', // Flexbox 사용
-  justifyContent: 'center', // 텍스트를 가운데 정렬
+  display: 'flex', 
+  justifyContent: 'center', 
   alignItems: 'center',
 };
-
 
 export default function HomeP() {
   const navigate = useNavigate();
 
-  const boardButtonClick = () => {
-    navigate('/home_p/board');
-  };
-
-  const editButtonClick = () => {
-    navigate('/home_p/edit');
-  }
-
-  const profileEditButtonClick = () => {
-    navigate('/home_p/profile_edit');
-  }
-
-  const surfingButtonClick = () => {
-    navigate('/home_p/surfing');
+  const homePButtonClick = () => {
+    navigate('/home_p');
   }
 
   const [feel, setFeel] = React.useState('');
@@ -102,6 +101,14 @@ export default function HomeP() {
   const handleChange = (event) => {
     setFeel(event.target.value);
   };
+  
+  const profileEditButtonClick = () => {
+    navigate('/home_p/profile_edit');
+  }
+
+  const surfingButtonClick = () => {
+    navigate('/home_p/surfing');
+  }
 
   return (
     <Grid container>
@@ -173,28 +180,39 @@ export default function HomeP() {
           <Grid container>
           <Grid item xs={11}>
             <Box sx={{ ...homePStyles, borderRadius: '13px' }}>
-              <Button variant="contained" size="small"  sx={{ backgroundColor: 'black' , margin: 1}} onClick={editButtonClick}>
-                편집
-              </Button>
               <Box>
-                <div>
-                  <Avatar
-                    alt="Default Profile"
-                    src="./imgs/default_home_p.jpg"
-                    sx={{ width: 765, height: 350, borderRadius: '0px', margin: 1 }} // 이미지의 가로, 세로 크기와 borderRadius를 설정
-                  />
+                <div style={{ height: 530, width: '100%' }}>
+                  <DataGrid
+                    columns={[
+                      {
+                        field: 'id', 
+                        headerName: '제목',
+                        flex: 1,
+                        minWidth: 150,
+                      },
+                      {
+                        field: 'username', 
+                        headerName: '글쓴이',
+                        width: 200,
+                      },
+                      {
+                        field: 'age', 
+                        headerName: '날짜', 
+                        flex: 0.3,
+                        minWidth: 50,
+                      },
+                    ]}
+                    rows={rows}
+                  sx={{margin: 1}}/>
                 </div>
-                <Typography sx={{margin: 2}}>
-                  게시물을 작성해보세요.
-                </Typography>
               </Box>
             </Box>
           </Grid>
           <Grid item xs={1} sx={{marginTop: 4}}>
-            <Button variant="contained" size="small" disabled sx={{ backgroundColor: 'black' }}>
+            <Button variant="contained" size="small" sx={{ backgroundColor: 'black' }} onClick={homePButtonClick}>
               메인
             </Button>
-            <Button variant="contained" size="small"  sx={{ backgroundColor: 'black' , marginTop: 1}} onClick={boardButtonClick}>
+            <Button variant="contained" size="small" disabled sx={{ backgroundColor: 'black' , marginTop: 1}}>
               게시글
             </Button>
           </Grid>

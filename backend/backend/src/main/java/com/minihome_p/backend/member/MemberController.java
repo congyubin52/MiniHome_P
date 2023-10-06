@@ -15,9 +15,12 @@ public class MemberController {
     MemberService memberService;
 
     @PostMapping("/signup")
-    public int createAccountForm(@RequestBody Map<String, Object> msgMap, MemberDto memberDto) {
+    public int createAccount(@RequestBody Map<String, Object> msgMap) {
         log.info("id {}", msgMap.get("id"));
-        return 1;
+
+        int result = memberService.createAccount(msgMap);
+
+        return result;
     }
 
 }

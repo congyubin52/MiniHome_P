@@ -10,6 +10,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import SignIn from './page/SignIn';
 import SignUp from './page/SignUp';
+import BoardList from './page/BoardList';
+import HomePEdit from './page/HomePEdit';
+import ProfileEdit from './page/ProfileEdit';
 
 function App() {
   // const [mini, setMini] = useState('')
@@ -44,6 +47,18 @@ function App() {
                   <Route
                         path="/home_p"
                         element={<HomeP/>}
+                  ></Route>
+                  <Route
+                        path="/home_p/board"
+                        element={<BoardList/>}
+                  ></Route>
+                  <Route
+                        path="/home_p/edit"
+                        element={<HomePEdit/>}
+                  ></Route>
+                  <Route
+                        path="/home_p/profile_edit"
+                        element={<ProfileEdit/>}
                   ></Route>
                 </Routes>
                 {/* <HomeP/> */}

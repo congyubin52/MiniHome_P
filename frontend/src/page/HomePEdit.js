@@ -3,8 +3,6 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { styled, alpha } from '@mui/material/styles';
-import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 import CloudQueueIcon from '@mui/icons-material/CloudQueue';
@@ -15,6 +13,9 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import Avatar from '@mui/material/Avatar';
 import { useNavigate } from 'react-router-dom';
+import { TextareaAutosize } from '@mui/base/TextareaAutosize';
+import { styled } from '@mui/system';
+import TextField from '@mui/material/TextField';
 
 const homeStyles = {
   bgcolor: 'background.paper',
@@ -59,48 +60,86 @@ const profileImageStyles = {
 };
 const todayFeelStyles = {
   bgcolor: 'background.paper',
+  borderColor: 'text.primary',
+  border: 1,
   ml: 4,
   mr: 4,
   mt: 4,
   height: '2rem',
 };
-const introStyles = {
+const pageBtn = {
   bgcolor: 'background.paper',
   borderColor: 'text.primary',
   border: 1,
-  ml: 4,
-  mr: 4,
-  mt: 1,
-  height: '8rem',
-  display: 'flex', // Flexbox 사용
-  justifyContent: 'center', // 텍스트를 가운데 정렬
-  alignItems: 'center',
+  mr: 1,
+  mt: 3,
+  height: '2rem',
 };
 
-
-export default function HomeP() {
+export default function HomePEdit() {
   const navigate = useNavigate();
 
   const boardButtonClick = () => {
     navigate('/home_p/board');
   };
 
-  const editButtonClick = () => {
-    navigate('/home_p/edit');
-  }
-
-  const profileEditButtonClick = () => {
-    navigate('/home_p/profile_edit');
-  }
-
-  const surfingButtonClick = () => {
-    navigate('/home_p/surfing');
+  const homePButtonClick = () => {
+    navigate('/home_p');
   }
 
   const [feel, setFeel] = React.useState('');
 
   const handleChange = (event) => {
     setFeel(event.target.value);
+  };
+
+  const grey = {
+    50: '#f6f8fa',
+    100: '#eaeef2',
+    200: '#d0d7de',
+    300: '#afb8c1',
+    400: '#8c959f',
+    500: '#6e7781',
+    600: '#57606a',
+    700: '#424a53',
+    800: '#32383f',
+    900: '#24292f',
+  };
+
+  const StyledTextarea = styled(TextareaAutosize)(
+    ({ theme }) => `
+    width: 320px;
+    font-family: IBM Plex Sans, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 12px;
+    border-radius: 12px 12px 0 12px;
+    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+    background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
+    border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+    box-shadow: 0px 2px 2px ${
+      theme.palette.mode === 'dark' ? grey[900] : grey[50]
+    };
+
+    // firefox
+    &:focus-visible {
+      outline: 0;
+    }
+  `
+  );
+
+  const introStyles = {
+    bgcolor: 'background.paper',
+    borderColor: 'text.primary',
+    border: 1,
+    ml: 4,
+    mr: 4,
+    mt: 1,
+    height: '8rem',
+    display: 'flex', 
+    justifyContent: 'center', 
+    alignItems: 'center',
   };
 
   return (
@@ -151,14 +190,6 @@ export default function HomeP() {
             <Box sx={{ ...introStyles, borderRadius: '13px' }} >
               소개글
             </Box>
-            <Button variant="contained" size="small"  sx={{ backgroundColor: 'black' , mt: 1, ml: 4 }} onClick={profileEditButtonClick}>
-                편집
-            </Button>
-            <Box sx={{ ...todayFeelStyles }}>
-              <Button variant="contained" size="small" sx={{ backgroundColor: 'black', pl: '70px', pr: '70px' }} onClick={surfingButtonClick}>
-                  파도타기
-              </Button>
-            </Box>
           </Box>
         </Box>
       </Grid>
@@ -166,35 +197,28 @@ export default function HomeP() {
         <Box sx={{ ...homeStyles, borderRadius: '13px' }}>
           {/* 홈피 제목 */}
           <Box sx={{ ...homePTitleStyles, display: 'flex', alignItems: 'center' }}>
-            <Typography variant="h5" fontWeight="bold">
-              유빈님의 미니홈피
-            </Typography>
+            <TextField fullWidth label="fullWidth" id="fullWidth"/>
           </Box>
           <Grid container>
           <Grid item xs={11}>
             <Box sx={{ ...homePStyles, borderRadius: '13px' }}>
-              <Button variant="contained" size="small"  sx={{ backgroundColor: 'black' , margin: 1}} onClick={editButtonClick}>
-                편집
-              </Button>
               <Box>
-                <div>
-                  <Avatar
-                    alt="Default Profile"
-                    src="./imgs/default_home_p.jpg"
-                    sx={{ width: 765, height: 350, borderRadius: '0px', margin: 1 }} // 이미지의 가로, 세로 크기와 borderRadius를 설정
-                  />
-                </div>
-                <Typography sx={{margin: 2}}>
-                  게시물을 작성해보세요.
-                </Typography>
+                <StyledTextarea
+                aria-label="minimum height"
+                minRows={3}
+                placeholder="내용을 입력하세요."
+                sx={{margin:1}}/>
+                <Button variant="contained" size="small"  sx={{ backgroundColor: 'black' , margin: 1}} /*onClick={saveButtonClick}*/>
+                저장
+                </Button>
               </Box>
             </Box>
           </Grid>
           <Grid item xs={1} sx={{marginTop: 4}}>
-            <Button variant="contained" size="small" disabled sx={{ backgroundColor: 'black' }}>
+          <Button variant="contained" size="small" sx={{ backgroundColor: 'black' }} onClick={homePButtonClick}>
               메인
             </Button>
-            <Button variant="contained" size="small"  sx={{ backgroundColor: 'black' , marginTop: 1}} onClick={boardButtonClick}>
+            <Button variant="contained" size="small" sx={{ backgroundColor: 'black' , marginTop: 1}} onClick={boardButtonClick}>
               게시글
             </Button>
           </Grid>

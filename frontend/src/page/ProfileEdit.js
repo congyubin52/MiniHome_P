@@ -15,6 +15,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import Avatar from '@mui/material/Avatar';
 import { useNavigate } from 'react-router-dom';
+import TextField from '@mui/material/TextField';
 
 const homeStyles = {
   bgcolor: 'background.paper',
@@ -66,8 +67,6 @@ const todayFeelStyles = {
 };
 const introStyles = {
   bgcolor: 'background.paper',
-  borderColor: 'text.primary',
-  border: 1,
   ml: 4,
   mr: 4,
   mt: 1,
@@ -78,23 +77,19 @@ const introStyles = {
 };
 
 
-export default function HomeP() {
+export default function ProfileEdit() {
   const navigate = useNavigate();
+
+  const homePButtonClick = () => {
+    navigate('/home_p');
+  }
 
   const boardButtonClick = () => {
     navigate('/home_p/board');
   };
 
-  const editButtonClick = () => {
-    navigate('/home_p/edit');
-  }
-
-  const profileEditButtonClick = () => {
+  const saveButtonClick = () => {
     navigate('/home_p/profile_edit');
-  }
-
-  const surfingButtonClick = () => {
-    navigate('/home_p/surfing');
   }
 
   const [feel, setFeel] = React.useState('');
@@ -149,16 +144,11 @@ export default function HomeP() {
             </div>
             </Box>
             <Box sx={{ ...introStyles, borderRadius: '13px' }} >
-              소개글
+                <TextField fullWidth label="소개글을 입력하세요." id="fullWidth" />
             </Box>
-            <Button variant="contained" size="small"  sx={{ backgroundColor: 'black' , mt: 1, ml: 4 }} onClick={profileEditButtonClick}>
-                편집
+            <Button variant="contained" size="small"  sx={{ backgroundColor: 'black' , mt: 1, ml: 4 }} onClick={saveButtonClick}>
+                저장
             </Button>
-            <Box sx={{ ...todayFeelStyles }}>
-              <Button variant="contained" size="small" sx={{ backgroundColor: 'black', pl: '70px', pr: '70px' }} onClick={surfingButtonClick}>
-                  파도타기
-              </Button>
-            </Box>
           </Box>
         </Box>
       </Grid>
@@ -173,9 +163,6 @@ export default function HomeP() {
           <Grid container>
           <Grid item xs={11}>
             <Box sx={{ ...homePStyles, borderRadius: '13px' }}>
-              <Button variant="contained" size="small"  sx={{ backgroundColor: 'black' , margin: 1}} onClick={editButtonClick}>
-                편집
-              </Button>
               <Box>
                 <div>
                   <Avatar
@@ -191,7 +178,7 @@ export default function HomeP() {
             </Box>
           </Grid>
           <Grid item xs={1} sx={{marginTop: 4}}>
-            <Button variant="contained" size="small" disabled sx={{ backgroundColor: 'black' }}>
+            <Button variant="contained" size="small" sx={{ backgroundColor: 'black' }}  onClick={homePButtonClick}>
               메인
             </Button>
             <Button variant="contained" size="small"  sx={{ backgroundColor: 'black' , marginTop: 1}} onClick={boardButtonClick}>

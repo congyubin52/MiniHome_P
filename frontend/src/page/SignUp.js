@@ -57,18 +57,23 @@ function SignUp() {
         "id": id,
         "pw": pw,
         "name": name,
-        "nickname": nickname,
-        "phone": phone,
         "mail": mail,
+        "phone": phone,
+        "nickname": nickname,
       }
       
       axios.post("/api/member/signup", JSON.stringify(data), config, )
       .then((response) => {
-        if(response.data > 0 ){
+        console.log(response.data)
+        if(response.data === 2 ){
+          console.log('사용중인 아이디입니다.');
+          
+        } else if(response.data === 1) {
           //성공
           console.log('성공');
           document.location.href = "/home_p";
-        } else {
+
+        }else {
           console.log('fail');
 
         }
