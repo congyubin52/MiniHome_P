@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useRef, useCallback } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -78,6 +79,21 @@ const pageBtn = {
 
 export default function HomePEdit() {
   const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const onUploadImage = useCallback((e) => {
+    if (!e.target.files) {
+      return;
+    }
+    console.log(e.target.files[0].name);
+  }, []);
+
+  const saveButtonClick = useCallback(() => {
+    if (!inputRef.current) {
+      return;
+    }
+    inputRef.current.click();
+  }, []);
 
   const boardButtonClick = () => {
     navigate('/home_p/board');
@@ -194,36 +210,39 @@ export default function HomePEdit() {
         </Box>
       </Grid>
       <Grid item xs={9}>
-        <Box sx={{ ...homeStyles, borderRadius: '13px' }}>
-          {/* 홈피 제목 */}
-          <Box sx={{ ...homePTitleStyles, display: 'flex', alignItems: 'center' }}>
-            <TextField fullWidth label="fullWidth" id="fullWidth"/>
-          </Box>
-          <Grid container>
-          <Grid item xs={11}>
-            <Box sx={{ ...homePStyles, borderRadius: '13px' }}>
-              <Box>
-                <StyledTextarea
-                aria-label="minimum height"
-                minRows={3}
-                placeholder="내용을 입력하세요."
-                sx={{margin:1}}/>
-                <Button variant="contained" size="small"  sx={{ backgroundColor: 'black' , margin: 1}} /*onClick={saveButtonClick}*/>
-                저장
-                </Button>
-              </Box>
+        <form onSubmit={saveButtonClick}>
+          <Box sx={{ ...homeStyles, borderRadius: '13px' }}>
+            {/* 홈피 제목 */}
+            <Box sx={{ ...homePTitleStyles, display: 'flex', alignItems: 'center' }}>
+              <TextField fullWidth label="제목을 입력하세요." id="fullWidth"/>
             </Box>
+            <Grid container>
+            <Grid item xs={11}>
+              <Box sx={{ ...homePStyles, borderRadius: '13px' }}>
+                <Box>
+                  <input type="file" accept="image/*" useRef={inputRef} onChange={onUploadImage} />
+                  <StyledTextarea
+                  aria-label="minimum height"
+                  minRows={3}
+                  placeholder="내용을 입력하세요."
+                  sx={{margin:1}}/>
+                  <Button variant="contained" size="small"  sx={{ backgroundColor: 'black' , margin: 1}}>
+                  저장
+                  </Button>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={1} sx={{marginTop: 4}}>
+            <Button variant="contained" size="small" sx={{ backgroundColor: 'black' }} onClick={homePButtonClick}>
+                메인
+              </Button>
+              <Button variant="contained" size="small" sx={{ backgroundColor: 'black' , marginTop: 1}} onClick={boardButtonClick}>
+                게시글
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={1} sx={{marginTop: 4}}>
-          <Button variant="contained" size="small" sx={{ backgroundColor: 'black' }} onClick={homePButtonClick}>
-              메인
-            </Button>
-            <Button variant="contained" size="small" sx={{ backgroundColor: 'black' , marginTop: 1}} onClick={boardButtonClick}>
-              게시글
-            </Button>
-          </Grid>
-        </Grid>
-        </Box>
+          </Box>
+        </form>
       </Grid>
     </Grid>
   );
